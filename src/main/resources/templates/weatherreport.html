@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+
+	<head>
+		<title> Weather Data App </title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/weatherreport.css" />
+  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  		<script type="text/javascript" th:src="@{/js/icons.js}"></script>
+	</head>
+	
+	<body>
+		
+		<script type="text/javascript" th:inline="javascript">
+			document.addEventListener("DOMContentLoaded", event => {
+				var citiNames = [[${cities}]];
+				var iconNames = [[${icons}]];
+				var skycons = new Skycons({"color": "#FF5733"});
+				for(var i = 0; i < citiNames.length; i++) {
+					skycons.add(citiNames[i], iconTypes[iconNames[i]]);
+				}
+				skycons.play();
+			});
+			
+			getDate = function (unix_timestamp){
+				return new Date(unix_timestamp*1000)
+			}
+		</script>
+		<h1 style="text-align: center;">Weather Data App</h1>
+		
+		<div class="cities">
+			<div class="well weatherData" th:each="weatherData: ${weatherDetails}">
+				<h4  class="citiName" th:text="${weatherData.cityName}" ></h4>
+				<div class="sumarry">
+					<canvas th:id="${weatherData.cityCode}" width="75" height="75"></canvas>
+					<div class="summaryText" th:text="${weatherData.summary}"></div>
+				</div>
+				<div>
+					<div th:text="'Minimum Temperature : ' + ${weatherData.temperatureMin}+'&#176;C'"></div>
+					<div th:text="'Maximum Temperature : ' + ${weatherData.temperatureMax}+'&#176;C'"></div>
+				</div>
+			</div>
+		</div>
+	
+	</body>
+
+</html>
